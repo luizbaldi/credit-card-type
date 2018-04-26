@@ -20,6 +20,7 @@ var CVN = 'CVN';
 var CVP2 = 'CVP2';
 var ELO = 'elo';
 var ORIGINAL_TEST_ORDER = [
+  ELO,
   VISA,
   MASTERCARD,
   AMERICAN_EXPRESS,
@@ -29,7 +30,6 @@ var ORIGINAL_TEST_ORDER = [
   UNIONPAY,
   MAESTRO,
   MIR,
-  ELO,
   HIPER_CARD
 ];
 
@@ -168,7 +168,7 @@ types[MIR] = {
 types[ELO] = {
   niceType: 'Elo',
   type: ELO,
-  exactPattern: /^(4[035]|5[0]|6[235])(6[7263]|9[90]|1[2416]|7[736]|8[9]|0[04579]|5[0])([0-9])([0-9])\d{10}$/,
+  exactPattern: /^((((636368)|(438935)|(504175)|(451416)|(636297))\d{0,10})|((5067)|(4576)|(4011))\d{0,12})$/,
   prefixPattern: / /,
   gaps: [4, 8, 12],
   lengths: [16, 17, 18, 19],
@@ -214,7 +214,9 @@ function creditCardType(cardNumber) {
     }
 
     if (value.exactPattern.test(cardNumber)) {
-      exactResults.push(clone(value));
+      if (!exactResults.find(card => card.type === ELO)) {
+        exactResults.push(clone(value));
+      }
     } else if (value.prefixPattern.test(cardNumber)) {
       prefixResults.push(clone(value));
     }
