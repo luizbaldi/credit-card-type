@@ -11,12 +11,14 @@ var DISCOVER = 'discover';
 var JCB = 'jcb';
 var UNIONPAY = 'unionpay';
 var MAESTRO = 'maestro';
+var HIPER_CARD = 'hipercard';
 var MIR = 'mir';
 var CVV = 'CVV';
 var CID = 'CID';
 var CVC = 'CVC';
 var CVN = 'CVN';
 var CVP2 = 'CVP2';
+var ELO = 'elo';
 var ORIGINAL_TEST_ORDER = [
   VISA,
   MASTERCARD,
@@ -26,7 +28,9 @@ var ORIGINAL_TEST_ORDER = [
   JCB,
   UNIONPAY,
   MAESTRO,
-  MIR
+  MIR,
+  ELO,
+  HIPER_CARD
 ];
 
 function clone(originalObject) {
@@ -161,6 +165,32 @@ types[MIR] = {
   }
 };
 
+types[ELO] = {
+  niceType: 'Elo',
+  type: ELO,
+  exactPattern: /^(4[035]|5[0]|6[235])(6[7263]|9[90]|1[2416]|7[736]|8[9]|0[04579]|5[0])([0-9])([0-9])\d{10}$/,
+  prefixPattern: / /,
+  gaps: [4, 8, 12],
+  lengths: [16, 17, 18, 19],
+  code: {
+    name: CVC,
+    size: 3
+  }
+};
+
+types[HIPER_CARD] = {
+  niceType: 'Hipercard',
+  type: HIPER_CARD,
+  exactPattern: /^(606282\d{10}(\d{3})?)|(3841(0|4|6)0\d{13})$/,
+  prefixPattern: / /,
+  gaps: [4, 8, 12],
+  lengths: [16, 19],
+  code: {
+    name: CVC,
+    size: 3
+  }
+};
+
 function findType(type) {
   return customCards[type] || types[type];
 }
@@ -244,7 +274,9 @@ creditCardType.types = {
   JCB: JCB,
   UNIONPAY: UNIONPAY,
   MAESTRO: MAESTRO,
-  MIR: MIR
+  MIR: MIR,
+  ELO: ELO,
+  HIPER_CARD: HIPER_CARD
 };
 
 module.exports = creditCardType;

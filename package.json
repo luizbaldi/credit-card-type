@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "test": "npm run lint && mocha test/**/*.js",
+    "test:watch": "npm run lint && mocha test/**/*.js --watch",
     "build": "npm run lint && gulp build"
   },
   "repository": {

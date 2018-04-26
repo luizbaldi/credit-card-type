@@ -132,7 +132,7 @@ describe('creditCardType', function () {
       ['2200', 'mir'],
       ['2204', 'mir'],
       ['22000000000000000', 'mir'],
-      ['22049999999999999', 'mir']
+      ['22049999999999999', 'mir'],
     ];
 
     tests.forEach(function (test) {
